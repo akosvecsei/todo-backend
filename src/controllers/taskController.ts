@@ -21,36 +21,36 @@ export const addTask = async (req: Request, res: Response) => {
 };
 
 export const toggleTaskCompletion = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    try {
-      const updatedTask = await taskService.toggleTaskCompletion(Number(id));
-      res.status(200).json(updatedTask);
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-  
-      if (errorMessage === 'Task not found') {
-        res.status(404).json({ error: errorMessage });
-      } else {
-        console.error('Error toggling task completion:', error);
-        res.status(500).json({ error: errorMessage });
-      }
+  const { id } = req.params;
+  try {
+    const updatedTask = await taskService.toggleTaskCompletion(Number(id));
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+
+    if (errorMessage === 'Task not found') {
+      res.status(404).json({ error: errorMessage });
+    } else {
+      console.error('Error toggling task completion:', error);
+      res.status(500).json({ error: errorMessage });
     }
+  }
 };
 
 export const deleteTask = async (req: Request, res: Response) => {
-    const { id } = req.params;
-  
-    try {
-      const result = await taskService.deleteTask(Number(id));
-      if (result) {
-        res.status(200).json({ message: 'Task deleted successfully' });
-      } else {
-        res.status(404).json({ error: 'Task not found' });
-      }
-    } catch (error) {
-      console.error('Error deleting task:', error);
-      res.status(500).json({ message: 'Internal server error' });
+  const { id } = req.params;
+
+  try {
+    const result = await taskService.deleteTask(Number(id));
+    if (result) {
+      res.status(200).json({ message: 'Task deleted successfully' });
+    } else {
+      res.status(404).json({ error: 'Task not found' });
     }
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 export const updateTaskOrder = async (req: Request, res: Response): Promise<void> => {
